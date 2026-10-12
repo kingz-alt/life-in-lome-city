@@ -325,7 +325,7 @@ func _talk() -> void:
     var who := ""
     for n in get_children():
         if n is Label3D and n.text in ["Ama", "Mawuli", "Kossi", "Yao"]:
-            var d := n.global_position.distance_to(player.global_position)
+            var d : float = n.global_position.distance_to(player.global_position)
             if d < nearest:
                 nearest = d
                 who = n.text
