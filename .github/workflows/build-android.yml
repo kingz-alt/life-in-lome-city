@@ -1,0 +1,32 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.3.0
+    steps:
+      - name: Check out project
+        uses: actions/checkout@v4
+
+      - name: Check project files
+        run: |
+          test -f project.godot
+          test -f main.gd
+          test -f scenes/Main.tscn
+
+      - name: Build Android APK
+        run: |
+          mkdir -p build
+          godot --headless --path . --export-debug "Android" build/LifeInLomeCity.apk
+
+      - name: Save APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: LifeInLomeCity-Android-APK
+          path: build/LifeInLomeCity.apk
